@@ -1,0 +1,34 @@
+{
+  "name": "pbr-config",
+  "version": "0.0.0",
+  "description": "Create public configuration for the project",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arylo/y-config.git"
+  },
+  "keywords": [
+    "conf",
+    "config",
+    "configuration",
+    "config-node",
+    "node-config",
+    "env",
+    "environment",
+    "common"
+  ],
+  "author": "AryloYeung <arylo.open@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Arylo/y-config/issues"
+  },
+  "homepage": "https://github.com/Arylo/y-config",
+  "dependencies": {
+    "coffee-script": "^1.12.4",
+    "config-yaml": "^1.0.4",
+    "lodash": "^4.17.4"
+  }
+}

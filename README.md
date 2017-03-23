@@ -2,7 +2,11 @@
 
 Create public configuration for the project
 
+[![stable](http://badges.github.io/stability-badges/dist/stable.svg)](https://travis-ci.org/Arylo/y-config)
 [![Build Status](https://travis-ci.org/Arylo/y-config.svg?branch=master)](https://travis-ci.org/Arylo/y-config)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+
+[![NPM](https://nodei.co/npm/y-config.png)](https://nodei.co/npm/y-config/)
 
 ## Installation
 ```bash

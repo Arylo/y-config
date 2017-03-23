@@ -4,8 +4,10 @@
   "description": "Create public configuration for the project",
   "main": "index.js",
   "scripts": {
+    "pretest": "npm run lint",
     "test": "node ./node_modules/mocha/bin/mocha -r should -R list",
-    "lint": "node ./node_modules/eslint/bin/eslint ./"
+    "lint": "node ./node_modules/eslint/bin/eslint ./",
+    "prepublish": "npm run test"
   },
   "repository": {
     "type": "git",

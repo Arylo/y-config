@@ -1,67 +1,71 @@
-'use strict';
+'use strict'
 
 fs = require 'fs'
 
+checkFileExist = (path) ->
+  path = require('path').resolve process.cwd(), path
+  return fs.statSync(path)?.isFile()
+
+checkFileType = (path) ->
+  return /\.(json|yml|yaml)$/.test path
+
+getConfigData = (path) ->
+  path = require('path').resolve process.cwd(), path
+  return switch
+    when /\.json$/.test path
+      JSON.parse fs.readFileSync path
+    when /\.ya?ml/.test path
+      require('config-yaml') path
+    else
+      { }
+
 class Config
-  OBJ = { }
+
   configPath = null
-  configCustomPath = null
+  customConfigPath = null
 
-  checkFileExist = (path) ->
-    return fs.stat(path).isFile()
+  CONFIG: { }
 
-  checkFileType = (path) ->
-    return /\.(json|yml|yaml)$/.test path
-
-  getConfigData = (path) ->
-    return switch
-      when /\.json$/.test path
-        JSON.parse fs.readFileSync path
-      when /\.ya?ml/.test path
-        require('config-yaml') path
-      else
-        { }
-
-  constructor: ->
-    return OBJ
+  getConfig: ->
+    return @CONFIG
 
   clear: ->
-    OBJ = { }
+    @CONFIG = { }
     configPath = null
-    configCustomPath = null
+    customConfigPath = null
     return true
 
   clearConfigPath: ->
     configPath = null
     return @reload()
 
-  clearConfigCustomPath: ->
-    configCustomPath = null
+  clearCustomConfigPath: ->
+    customConfigPath = null
     return @reload()
 
   getConfigPath: -> return configPath
 
-  getConfigCustomPath: -> return configCustomPath
+  getCustomConfigPath: -> return customConfigPath
 
   setConfigPath: (path) ->
-    return false if not checkFileExist(path)
     return false if not checkFileType(path)
+    return false if not checkFileExist(path)
     configPath = path
     return @reload()
 
-  setConfigCustomPath: (path) ->
-    return false if not configPath?
-    return false if not checkFileExist(path)
+  setCustomConfigPath: (path) ->
     return false if not checkFileType(path)
-    configCustomPath = path
+    return false if not checkFileExist(path)
+    return false if not configPath?
+    customConfigPath = path
     return @reload()
 
   reload: ->
     return true if not configPath?
-    OBJ = getConfigData configPath
-    if configCustomPath?
-      _obj = getConfigData configCustomPath
-      OBJ = require('lodash').merge OBJ, _obj
+    @CONFIG = getConfigData configPath
+    if customConfigPath?
+      _obj = getConfigData customConfigPath
+      @CONFIG = require('lodash').merge @CONFIG, _obj
     return true
 
-module.exports = Config
+module.exports = new Config()

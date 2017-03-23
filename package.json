@@ -1,10 +1,11 @@
 {
-  "name": "pbr-config",
+  "name": "y-config",
   "version": "0.0.0",
   "description": "Create public configuration for the project",
   "main": "index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "node ./node_modules/mocha/bin/mocha -r should -R list",
+    "lint": "node ./node_modules/eslint/bin/eslint ./"
   },
   "repository": {
     "type": "git",
@@ -30,5 +31,10 @@
     "coffee-script": "^1.12.4",
     "config-yaml": "^1.0.4",
     "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "mocha": "^3.2.0",
+    "should": "^11.2.1"
   }
 }

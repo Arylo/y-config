@@ -30,7 +30,25 @@ config.setCustomConfigPath(...);
 
 ## Get Config Data
 ```javascript
+let config = require('y-config');
 config.getConfig()
 // or
-config.CONFIG
+config
+```
+## Add Config Object
+```javascript
+let config = require('y-config');
+config.module = 'y-config';
+config.module = 'author';
+// {
+//   "module": "y-config",
+//   "author": "AryloYeung"
+// }
+config.setConfig({ "author": { "name": "y-config" } });
+// {
+//   "module": "y-config",
+//   "author": {
+//     "name": "AryloYeung"
+//   }
+// }
 ```

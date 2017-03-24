@@ -1,6 +1,7 @@
 'use strict'
 
 fs = require 'fs'
+_  = require 'lodash'
 
 checkFileExist = (path) ->
   path = require('path').resolve process.cwd(), path
@@ -24,15 +25,28 @@ class Config
   configPath = null
   customConfigPath = null
 
-  CONFIG: { }
-
   getConfig: ->
-    return @CONFIG
+    obj = { }
+    for own key, value of @
+      obj[key] = value
+      continue
+    return obj
+
+  setConfig: (obj) ->
+    return false if not _.isObject obj
+    _obj = { }
+    for own key, value of obj
+      obj[key] = value
+      continue
+    for own key, value of (_.merge @, _obj)
+      @[key] = value
+      continue
+    return true
 
   clear: ->
-    @CONFIG = { }
-    configPath = null
-    customConfigPath = null
+    for own key of @
+      delete @[key]
+    @:: = Config::
     return true
 
   clearConfigPath: ->
@@ -47,13 +61,13 @@ class Config
 
   getCustomConfigPath: -> return customConfigPath
 
-  setConfigPath: (path) ->
+  setConfigPath: (path='') ->
     return false if not checkFileType(path)
     return false if not checkFileExist(path)
     configPath = path
     return @reload()
 
-  setCustomConfigPath: (path) ->
+  setCustomConfigPath: (path='') ->
     return false if not checkFileType(path)
     return false if not checkFileExist(path)
     return false if not configPath?
@@ -62,10 +76,16 @@ class Config
 
   reload: ->
     return true if not configPath?
-    @CONFIG = getConfigData configPath
+    @clear()
+    _obj = getConfigData configPath
+    for own key, value of (_.merge @, _obj)
+      @[key] = value
+      continue
     if customConfigPath?
       _obj = getConfigData customConfigPath
-      @CONFIG = require('lodash').merge @CONFIG, _obj
+      for own key, value of (_.merge @, _obj)
+        @[key] = value
+        continue
     return true
 
 module.exports = new Config()

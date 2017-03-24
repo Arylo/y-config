@@ -11,32 +11,30 @@ describe('Config Test.', function () {
   it('Default.', function () {
     config.should.be.an.Object();
     config.should.have.properties([
-      'getConfig',
+      'getConfig', 'setConfig',
       'clear', 'clearConfigPath', 'clearCustomConfigPath',
       'getConfigPath', 'getCustomConfigPath',
       'setConfigPath', 'setCustomConfigPath',
       'reload'
     ]);
-    config.should.have.property('CONFIG', { });
   });
 
   describe('Empty Config.', function () {
 
     it('Direct Assign.', function () {
-      config.CONFIG.aa = 'Test';
-      config.CONFIG.should.have.property('aa', 'Test');
+      config.aa = 'Test';
+      config.should.have.property('aa', 'Test');
       config.getConfig().should.have.property('aa', 'Test');
     });
 
     it('Clear Config', function () {
-      config.CONFIG.it3223 = 'Test';
+      config.it3223 = 'Test';
       config.clear().should.be.True();
       config.getConfig().should.have.not.property('it3223');
-      config.getConfig().should.eql({ });
     });
 
     it('Reload Config', function () {
-      config.CONFIG.test322 = 'Test';
+      config.test322 = 'Test';
       config.reload().should.be.True();
       config.getConfig().should.have.property('test322');
     });
@@ -82,7 +80,7 @@ describe('Config Test.', function () {
     it('Reload Config', function () {
       let path = 'test/assets/config.sample.json';
       config.setConfigPath(path).should.be.True();
-      config.CONFIG.author = 'AryloYeung';
+      config.author = 'AryloYeung';
       config.reload().should.be.True();
       config.getConfig().should.have.not.property('author');
     });

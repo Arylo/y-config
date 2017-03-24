@@ -43,11 +43,19 @@ describe('Config Test.', function () {
 
   describe('Wrong Config Path.', function () {
 
-    it('Set Config Folder', function () {
+    it('Set Config Folder', function (done) {
+      config.once('err', function (msg) {
+        msg.should.be.a.String();
+        done();
+      });
       config.setConfigPath('./config/').should.be.False();
     });
 
-    it('Set Custom Config Folder', function () {
+    it('Set Custom Config Folder', function (done) {
+      config.once('err', function (msg) {
+        msg.should.be.a.String();
+        done();
+      });
       config.setCustomConfigPath('./config/').should.be.False();
     });
 

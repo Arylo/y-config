@@ -3,20 +3,38 @@
 fs = require 'fs'
 _  = require 'lodash'
 
+DEBUG = false
+events = require('events')
+ee = new events.EventEmitter()
+
+errorEmit = (errmsg) ->
+  console.error errmsg if DEBUG
+  return ee.emit 'err', errmsg
+
 checkFileExist = (path) ->
   path = require('path').resolve process.cwd(), path
-  return fs.statSync(path)?.isFile()
+  bool = fs.statSync(path)?.isFile()
+  errorEmit "'#{path}' is not an existing file." if !bool
+  return bool
 
 checkFileType = (path) ->
-  return /\.(json|yml|yaml)$/.test path
+  bool = /\.(json|yml|yaml)$/.test path
+  errorEmit "'#{path}' is not an existing file." if !bool
+  return bool
 
 getConfigData = (path) ->
   path = require('path').resolve process.cwd(), path
   return switch
     when /\.json$/.test path
-      JSON.parse fs.readFileSync path
+      try
+        JSON.parse fs.readFileSync path
+      catch error
+        errorEmit "'#{path}' is not a valid JSON file."
     when /\.ya?ml/.test path
-      require('config-yaml') path
+      try
+        require('config-yaml') path
+      catch error
+        errorEmit "'#{path}' is not a valid YAML file."
     else
       { }
 
@@ -24,6 +42,18 @@ class Config
 
   configPath = null
   customConfigPath = null
+
+  on: (event, cb) ->
+    ee.on(event, cb)
+  once: (event, cb) ->
+    ee.once(event, cb)
+
+  getDebug = -> DEBUG
+
+  setDebug = (bool=false) ->
+    return false if not isBoolean bool
+    DEBUG = bool
+    return true
 
   getConfig: ->
     obj = { }

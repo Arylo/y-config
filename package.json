@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Create public configuration for the project",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "pretest": "npm run lint",
     "test": "node ./node_modules/mocha/bin/mocha -r should -R list",

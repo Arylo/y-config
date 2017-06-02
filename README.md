@@ -39,7 +39,7 @@ config
 ```javascript
 let config = require('y-config');
 config.module = 'y-config';
-config.module = 'author';
+config.author = 'AryloYeung';
 // {
 //   "module": "y-config",
 //   "author": "AryloYeung"
@@ -50,5 +50,9 @@ config.setConfig({ "author": { "name": "y-config" } });
 //   "author": {
 //     "name": "AryloYeung"
 //   }
+// }
+console.log(config.author);
+// "author": {
+//   "name": "AryloYeung"
 // }
 ```

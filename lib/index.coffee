@@ -7,23 +7,29 @@ DEBUG = false
 events = require('events')
 ee = new events.EventEmitter()
 
+configCwd = null
+configPath = null
+customConfigPath = null
+
 errorEmit = (errmsg) ->
-  console.error errmsg if DEBUG
+  process.stderr.write "#{errmsg}\n" if DEBUG
   return ee.emit 'err', errmsg
 
-checkFileExist = (path) ->
-  path = require('path').resolve process.cwd(), path
-  bool = fs.statSync(path)?.isFile()
-  errorEmit "'#{path}' is not an existing file." if !bool
+checkPathExist = (filepath) ->
+  cwd = configCwd ? process.cwd()
+  path = require('path').resolve cwd, filepath
+  bool = fs.existsSync(path)
+  errorEmit "'#{path}' is not exist." if !bool
   return bool
 
-checkFileType = (path) ->
-  bool = /\.(json|yml|yaml)$/.test path
-  errorEmit "'#{path}' is not an existing file." if !bool
+checkFileType = (filepath) ->
+  bool = /\.(json|yml|yaml)$/.test filepath
+  errorEmit "'#{filepath}' is not an existing file." if !bool
   return bool
 
-getConfigData = (path) ->
-  path = require('path').resolve process.cwd(), path
+getConfigData = (filepath) ->
+  cwd = configCwd ? process.cwd()
+  path = require('path').resolve cwd, filepath
   return switch
     when /\.json$/.test path
       try
@@ -40,14 +46,11 @@ getConfigData = (path) ->
 
 class Config
 
-  configPath = null
-  customConfigPath = null
-
-  on: (event, cb) ->
-    ee.on(event, cb)
-  once: (event, cb) ->
-    ee.once(event, cb)
-
+  # ####################
+  #
+  # Debug Function
+  #
+  # ####################
   getDebug = -> DEBUG
 
   setDebug = (bool=false) ->
@@ -55,6 +58,21 @@ class Config
     DEBUG = bool
     return true
 
+  # ####################
+  #
+  # Event Function
+  #
+  # ####################
+  on: (event, cb) ->
+    ee.on(event, cb)
+  once: (event, cb) ->
+    ee.once(event, cb)
+
+  # ####################
+  #
+  # Config Function
+  #
+  # ####################
   getConfig: ->
     obj = { }
     for own key, value of @
@@ -73,11 +91,23 @@ class Config
       continue
     return true
 
-  clear: ->
-    for own key of @
-      delete @[key]
-    @:: = Config::
-    return true
+  # ####################
+  #
+  # Path Function
+  #
+  # ####################
+  clearConfigCwd: ->
+    configCwd = null
+    return @reload()
+
+  getConfigCwd: -> return configCwd
+
+  setConfigCwd: (cwd) ->
+    cwd = require('path').resolve process.cwd(), cwd
+    return false if cwd is configCwd
+    return false if not checkPathExist(cwd)
+    configCwd = cwd
+    return @reload()
 
   clearConfigPath: ->
     configPath = null
@@ -91,18 +121,29 @@ class Config
 
   getCustomConfigPath: -> return customConfigPath
 
-  setConfigPath: (path='') ->
-    return false if not checkFileType(path)
-    return false if not checkFileExist(path)
-    configPath = path
+  setConfigPath: (filepath='') ->
+    return false if not checkFileType(filepath)
+    return false if not checkPathExist(filepath)
+    configPath = filepath
     return @reload()
 
-  setCustomConfigPath: (path='') ->
-    return false if not checkFileType(path)
-    return false if not checkFileExist(path)
+  setCustomConfigPath: (filepath='') ->
+    return false if not checkFileType(filepath)
+    return false if not checkPathExist(filepath)
     return false if not configPath?
-    customConfigPath = path
+    customConfigPath = filepath
     return @reload()
+
+  # ####################
+  #
+  # Data Function
+  #
+  # ####################
+  clear: ->
+    for own key of @
+      delete @[key]
+    @:: = Config::
+    return true
 
   reload: ->
     return true if not configPath?

@@ -1,27 +1,31 @@
 interface AnyObject {
-    [prop: string]: any
+  [prop: string]: any
 }
 
 declare interface Config extends AnyObject {
-    on(event: string, cb: any): void,
-    once(event: string, cb: any): void,
-    
-    getDebug(): boolean,
-    setDebug(bool: boolean): boolean,
 
-    getConfig(): AnyObject,
-    setConfig(obj: any): boolean,
+  getDebug(): boolean,
+  setDebug(bool: boolean): boolean,
 
-    clear(): boolean,
+  on(event: string, cb: any): void,
+  once(event: string, cb: any): void,
 
-    clearConfigPath(): boolean,
-    clearCustomConfigPath(): boolean,
-    getConfigPath(): string,
-    getCustomConfigPath(): string,
-    setConfigPath(path: string): boolean,
-    setCustomConfigPath(path: string): boolean,
+  getConfig(): AnyObject,
+  setConfig(obj: any): boolean,
 
-    reload(): boolean
+  clearConfigCwd(): boolean,
+  getConfigCwd(): boolean,
+  setConfigCwd(cwd: string): boolean,
+
+  clearConfigPath(): boolean,
+  clearCustomConfigPath(): boolean,
+  getConfigPath(): string,
+  getCustomConfigPath(): string,
+  setConfigPath(filepath: string): boolean,
+  setCustomConfigPath(filepath: string): boolean,
+
+  clear(): boolean,
+  reload(): boolean
 }
 
 declare let inst: Config;

@@ -6,6 +6,9 @@ describe('Config Test.', function () {
 
   beforeEach(function () {
     config.clear();
+    config.clearConfigCwd();
+    config.clearConfigPath();
+    config.clearCustomConfigPath();
   });
 
   it('Default.', function () {

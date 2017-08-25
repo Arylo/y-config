@@ -2,31 +2,30 @@ interface AnyObject {
   [prop: string]: any
 }
 
-declare interface Config extends AnyObject {
+declare module "y-config" {
+  function getDebug(): boolean;
+  function setDebug(bool: boolean): boolean;
 
-  getDebug(): boolean,
-  setDebug(bool: boolean): boolean,
+  function on(event: string, cb: any): void;
+  function once(event: string, cb: any): void;
 
-  on(event: string, cb: any): void,
-  once(event: string, cb: any): void,
+  function getConfig(): AnyObject;
+  function setConfig(obj: any): boolean;
 
-  getConfig(): AnyObject,
-  setConfig(obj: any): boolean,
+  function clearConfigCwd(): boolean;
+  function getConfigCwd(): boolean;
+  function setConfigCwd(cwd: string): boolean;
 
-  clearConfigCwd(): boolean,
-  getConfigCwd(): boolean,
-  setConfigCwd(cwd: string): boolean,
+  function clearConfigPath(): boolean;
+  function clearCustomConfigPath(): boolean;
+  function getConfigPath(): string;
+  function getCustomConfigPath(): string;
+  function setConfigPath(filepath: string): boolean;
+  function setCustomConfigPath(filepath: string): boolean;
 
-  clearConfigPath(): boolean,
-  clearCustomConfigPath(): boolean,
-  getConfigPath(): string,
-  getCustomConfigPath(): string,
-  setConfigPath(filepath: string): boolean,
-  setCustomConfigPath(filepath: string): boolean,
-
-  clear(): boolean,
-  reload(): boolean
+  function clear(): boolean;
+  function reload(): boolean;
 }
 
-declare let inst: Config;
-export = inst;
+declare let config: "y-config";
+export = config;

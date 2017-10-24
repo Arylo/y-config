@@ -5,9 +5,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "pretest": "npm run lint",
     "test": "mocha -r should -R list",
-    "lint": "eslint ./",
     "prepublish": "npm run test"
   },
   "repository": {
@@ -36,7 +34,6 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "eslint": "^3.18.0",
     "mocha": "^3.2.0",
     "should": "^11.2.1"
   }

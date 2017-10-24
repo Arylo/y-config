@@ -2,43 +2,47 @@ export interface AnyObject {
   [prop: string]: any
 }
 
-export class Config<T extends AnyObject> {
+type ConfigClass<T extends AnyObject> = {
   /**
    * Get Debug Status
    */
-  public getDebug(): boolean;
+  getDebug(): boolean;
   /**
    * Set Debug Status
    * @param bool status
    */
-  public setDebug(bool: boolean): boolean;
+  setDebug(bool: boolean): boolean;
 
-  public on(event: string, cb: any): void;
-  public once(event: string, cb: any): void;
+  on(event: string, cb: any): void;
+  once(event: string, cb: any): void;
 
   /**
    * Display Stored Data
    */
-  public getConfig(): T;
+  getConfig(): T;
   /**
    * Store Data
    * @param obj data
    */
-  public setConfig(obj: T): boolean;
+  setConfig(obj: T): boolean;
 
-  public clearConfigCwd(): boolean;
-  public getConfigCwd(): boolean;
-  public setConfigCwd(cwd: string): boolean;
+  clearConfigCwd(): boolean;
+  getConfigCwd(): boolean;
+  setConfigCwd(cwd: string): boolean;
 
-  public clearConfigPath(): boolean;
-  public clearCustomConfigPath(): boolean;
-  public getConfigPath(): string;
-  public getCustomConfigPath(): string;
-  public setConfigPath(filepath: string): boolean;
-  public setCustomConfigPath(filepath: string): boolean;
+  clearConfigPath(): boolean;
+  clearCustomConfigPath(): boolean;
+  getConfigPath(): string;
+  getCustomConfigPath(): string;
+  setConfigPath(filepath: string): boolean;
+  setCustomConfigPath(filepath: string): boolean;
 
-  public clear(): boolean;
-  public reload(): boolean;
-
-  [prop: string]: any;
+  clear(): boolean;
+  reload(): boolean;
 }
+
+type ConfigValue<T extends AnyObject> = {
+  [P in keyof T]: T[P];
+}
+
+export type Config<T extends AnyObject> = ConfigClass<T> & ConfigValue<T>;

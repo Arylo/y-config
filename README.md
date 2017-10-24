@@ -11,7 +11,6 @@ Create public configuration for the project
 ## Installation
 ```bash
 npm install --save y-config
-npm install --save-dev y-config
 ```
 
 ## Load Module

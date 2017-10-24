@@ -1,6 +1,6 @@
 {
   "name": "y-config",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Create public configuration for the project",
   "main": "index.js",
   "types": "index.d.ts",
@@ -20,7 +20,9 @@
     "node-config",
     "env",
     "environment",
-    "common"
+    "common",
+    "typescript",
+    "coffeescript"
   ],
   "author": "AryloYeung <arylo.open@gmail.com>",
   "license": "MIT",

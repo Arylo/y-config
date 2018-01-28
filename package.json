@@ -5,8 +5,10 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
+    "pretest": "npm run build",
     "test": "mocha -r should -R list",
-    "prepublish": "npm run test"
+    "prepublish": "npm run test",
+    "build": "coffee --map --compile --output lib/ src/"
   },
   "repository": {
     "type": "git",
@@ -30,12 +32,16 @@
     "url": "https://github.com/Arylo/y-config/issues"
   },
   "homepage": "https://github.com/Arylo/y-config",
+  "files": [
+    "lib", "src", "examples"
+  ],
   "dependencies": {
-    "coffee-script": "^1.12.4",
     "config-yaml": "^1.0.4",
-    "lodash": "^4.17.4"
+    "lodash.isobject": "^3.0.2",
+    "lodash.merge": "^4.6.0"
   },
   "devDependencies": {
+    "coffeescript": "^2.1.1",
     "mocha": "^3.2.0",
     "should": "^11.2.1"
   }

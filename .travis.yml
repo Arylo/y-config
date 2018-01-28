@@ -1,13 +1,25 @@
 sudo: false
+
 language: node_js
+
 node_js:
-  - "4"
   - "6"
   - "8"
+  - "node"
+  - "lts/*"
+
 before_instnall:
   - echo '' > .npmrc
+
 install: npm install
+
 script:
   - npm run test
-git:
-  depth: 10
+
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: "arylo.open@gmail.com"
+  api_key: "${NPM_TOKEN}"
+  on:
+    branch: master

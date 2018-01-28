@@ -1,7 +1,5 @@
 import { Config, AnyObject } from './dts.d';
 
-declare module "y-config" {
-  export = new Config();
-}
+declare const config: Config<AnyObject>;
 
-export = new Config();
+export = config;

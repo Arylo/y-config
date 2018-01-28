@@ -1,7 +1,9 @@
 'use strict'
 
 fs = require 'fs'
-_  = require 'lodash'
+_  =
+  isObject: require 'lodash.isobject'
+  merge: require 'lodash.merge'
 
 DEBUG = false
 events = require('events')

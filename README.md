@@ -1,61 +1,26 @@
 # y-config
 
-Create public configuration for the project
+The project is generated in [`arylo-init`](https://www.npmjs.com/package/arylo-init)
 
-[![node](https://img.shields.io/node/v/y-config.svg?style=flat-square)](https://www.npmjs.com/package/y-config)
-[![David](https://img.shields.io/david/Arylo/y-config.svg?style=flat-square)][REPO]
-[![Travis](https://img.shields.io/travis/Arylo/y-config.svg?style=flat-square)](https://travis-ci.org/Arylo/y-config)
-[![Author](https://img.shields.io/badge/Author-AryloYeung-blue.svg?style=flat-square)](https://github.com/arylo)
-[![license](https://img.shields.io/github/license/Arylo/y-config.svg?style=flat-square)][REPO]
+[![node][NPM_URL]][NPM_HREF]
+[![Travis][TRAVIS_URL]][TRAVIS_HREF]
+[![Coveralls][COVERALLS_URL]][COVERALLS_HREF]
+[![Known Vulnerabilities][SNYK_URL]][SNYK_HREF]
+[![David][DAVID_URL]][DAVID_HREF]
+[![Author][AUTHOR_URL]][AUTHOR_HREF]
+[![license][LICENSE_URL]][LICENSE_HREF]
 
-[![NPM](https://nodei.co/npm/y-config.png)](https://nodei.co/npm/y-config/)
-
-## Installation
-```bash
-npm install --save y-config
-```
-
-## Load Module
-
-```javascript
-// Without config file
-let config = require('y-config');
-// Load config file
-let config = require('y-config');
-config.setConfigPath(...);
-// Load Default+Custom config file
-let config = require('y-config');
-config.setConfigPath(...);
-config.setCustomConfigPath(...);
-```
-
-## Get Config Data
-```javascript
-let config = require('y-config');
-config.getConfig()
-// or
-config
-```
-## Add Config Object
-```javascript
-let config = require('y-config');
-config.module = 'y-config';
-config.author = 'AryloYeung';
-// {
-//   "module": "y-config",
-//   "author": "AryloYeung"
-// }
-config.setConfig({ "author": { "name": "y-config" } });
-// {
-//   "module": "y-config",
-//   "author": {
-//     "name": "AryloYeung"
-//   }
-// }
-console.log(config.author);
-// "author": {
-//   "name": "AryloYeung"
-// }
-```
-
-[REPO]: https://github.com/Arylo/y-config
+[NPM_URL]: https://img.shields.io/node/v/y-config.svg?style=flat-square&maxAge=600
+[NPM_HREF]: https://www.npmjs.com/package/y-config
+[TRAVIS_URL]: https://img.shields.io/travis/Arylo/y-config.svg?style=flat-square&logo=travis&maxAge=600
+[TRAVIS_HREF]: https://travis-ci.org/Arylo/y-config
+[COVERALLS_URL]: https://img.shields.io/coveralls/github/Arylo/y-config.svg?style=flat-square&maxAge=600
+[COVERALLS_HREF]: https://coveralls.io/github/Arylo/y-config
+[SNYK_URL]: https://snyk.io/test/github/Arylo/y-config/badge.svg?style=flat-square&maxAge=600
+[SNYK_HREF]: https://snyk.io/test/github/Arylo/y-config
+[DAVID_URL]: https://img.shields.io/david/Arylo/y-config.svg?style=flat-square&maxAge=600
+[DAVID_HREF]: https://github.com/Arylo/y-config
+[AUTHOR_URL]: https://img.shields.io/badge/Author-AryloYeung-blue.svg?style=flat-square&maxAge=7200
+[AUTHOR_HREF]: https://github.com/arylo
+[LICENSE_URL]: https://img.shields.io/github/license/Arylo/npm-project-init.svg?style=flat-square&maxAge=7200
+[LICENSE_HREF]: https://opensource.org/licenses/MIT

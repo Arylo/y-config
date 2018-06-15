@@ -13,7 +13,7 @@ interface IStoreObj {
     format: TrueFormat;
 }
 
-class Config<T> {
+export = class Config<T extends { }> {
 
     private storeObjs: IStoreObj[] = [ ];
     private config = { };
@@ -100,6 +100,4 @@ class Config<T> {
         return md5.digest("hex");
     }
 
-}
-
-export = new Config();
+};

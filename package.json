@@ -1,7 +1,7 @@
 {
   "name": "y-config",
   "version": "2.0.0",
-  "description": "The project is generated in [`arylo-init`](https://www.npmjs.com/package/arylo-init)",
+  "description": "Create public configuration for the project",
   "main": "dist/index.js",
   "types": "lib/index.ts",
   "scripts": {
@@ -9,12 +9,21 @@
     "tsc": "tsc --locale zh-cn --pretty",
     "build": "npm run tsc -- -P tsconfig.json",
     "pretest": "npm run clean && npm run tsc -- -P tsconfig.test.json",
-    "test": "ava dist/test",
+    "test": "ava dist/test/**/*.spec.*",
     "lint": "npm run lint:typescript && npm run lint:javascript",
-    "lint:typescript": "tslint lib/**/*.ts test/**/*.ts",
-    "lint:javascript": "eslint lib/**/*.js test/**/*.js"
+    "lint:typescript": "tslint {lib,test,simples}/**/*.ts",
+    "lint:javascript": "eslint {lib,test,simples}/**/*.js"
   },
   "keywords": [
+    "conf",
+    "config",
+    "configuration",
+    "config-node",
+    "node-config",
+    "env",
+    "environment",
+    "common",
+    "typescript",
     "arylo"
   ],
   "engines": {
@@ -22,7 +31,8 @@
   },
   "files": [
     "dist",
-    "lib"
+    "lib",
+    "simples"
   ],
   "author": "AryloYeung <arylo.open@gmail.com>",
   "repository": {

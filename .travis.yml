@@ -1,23 +1,25 @@
-sudo: false
-
 language: node_js
 
 node_js:
-  - "6"
-  - "8"
   - "node"
   - "lts/*"
+  - "8"
+  - "6"
 
-before_instnall:
-  - echo '' > .npmrc
-
-install: npm install
+before_script:
+  - "npm install nyc --global"
 
 script:
-  - npm run test
+  - "npm run build"
+  - "nyc npm test"
+
+after_success:
+  - "npm install coveralls@~3.0.0 --global"
+  - "nyc report --reporter=text-lcov | coveralls"
 
 before_deploy:
-  - npm run build
+  - "npm run clean"
+  - "npm run build -- -P ./tsconfig.prod.json"
 
 deploy:
   skip_cleanup: true
@@ -26,3 +28,4 @@ deploy:
   api_key: "${NPM_TOKEN}"
   on:
     branch: master
+    node_js: "node"

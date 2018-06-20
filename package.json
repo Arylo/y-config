@@ -9,7 +9,7 @@
     "tsc": "tsc --locale zh-cn --pretty",
     "build": "npm run tsc -- -P tsconfig.json",
     "pretest": "npm run clean && npm run tsc -- -P tsconfig.test.json",
-    "test": "ava dist/test/**/*.spec.*",
+    "test": "ava dist/{lib,test}/**/*.spec.*",
     "lint": "npm run lint:typescript && npm run lint:javascript",
     "lint:typescript": "tslint {lib,test,simples}/**/*.ts",
     "lint:javascript": "eslint {lib,test,simples}/**/*.js"
@@ -45,6 +45,7 @@
   "homepage": "https://github.com/Arylo/y-config#readme",
   "license": "MIT",
   "devDependencies": {
+    "@types/config-yaml": "^1.1.0",
     "@types/find-up": "^2.1.1",
     "@types/lodash.merge": "^4.6.3",
     "@types/node": "^10.1.2",

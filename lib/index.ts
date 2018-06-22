@@ -4,41 +4,69 @@ import * as fs from "fs";
 import merge = require("lodash.merge");
 import * as path from "path";
 
-type Format = "json" | "yaml";
+// tslint:disable-next-line:no-namespace
+declare namespace Config {
+    export type Format = "json" | "yaml" | string;
+    type TrueFormat = symbol | Format;
 
-type TrueFormat = "object" | Format;
+    interface IStoreObj {
+        data: object | string;
+        format: TrueFormat;
+    }
 
-interface IStoreObj {
-    data: object | string;
-    format: TrueFormat;
+    export interface IParserrObj<T> {
+        handler: (p: fs.PathLike) => Partial<T>;
+        filter: RegExp;
+        format: string;
+    }
 }
 
-export = class Config<T extends { }> {
+class Config<T extends { }> {
 
-    private storeObjs: IStoreObj[] = [ ];
+    private storeObjs: Config.IStoreObj[] = [ ];
     private config = { };
+    private objSymbol = Symbol("object");
+
+    private parsers: Array<Config.IParserrObj<T>> = [{
+        filter: /\.json$/,
+        format: "yaml",
+        handler: (filepath) => {
+            const fileOptions = { encoding: "utf-8" };
+            const filedata = fs.readFileSync(filepath, fileOptions);
+            return JSON.parse(filedata);
+        }
+    }, {
+        filter: /\.ya?ml$/,
+        format: "json",
+        handler: (filepath) => {
+            return YAML(filepath);
+        }
+    }];
 
     public addConfig(obj: Partial<T>) {
         this.storeObjs.push({
             data: obj,
-            format: "object"
+            format: this.objSymbol
         });
         return true;
     }
 
-    public addConfigPath(p: fs.PathLike, format?: Format) {
+    public addConfigPath(p: fs.PathLike, format?: Config.Format) {
         p = p.toString();
         if (!path.isAbsolute(p)) {
             p = `${process.cwd()}/${p}`;
         }
         if (fs.existsSync(p)) {
-            if (!format) {
-                format = "json";
-                if (/\.json$/.test(p)) {
-                    format = "json";
-                } else if (/\.ya?ml$/.test(p)) {
-                    format = "yaml";
+            if (format === undefined) {
+                for (const parserObj of this.parsers) {
+                    if (parserObj.filter.test(p)) {
+                        format = parserObj.format;
+                        break;
+                    }
                 }
+            }
+            if (format === undefined) {
+                return false;
             }
             this.storeObjs.push({
                 data: p,
@@ -48,6 +76,11 @@ export = class Config<T extends { }> {
         } else {
             return false;
         }
+    }
+
+    public addParser(obj: Config.IParserrObj<T>) {
+        this.parsers.push(obj);
+        return true;
     }
 
     public get(key: keyof T) {
@@ -64,20 +97,22 @@ export = class Config<T extends { }> {
                 .forEach((item) => {
                     delete this.config[item];
                 });
-            for (const info of this.storeObjs) {
+            for (const storeObj of this.storeObjs) {
                 let data = { };
-                if (info.format === "object") {
-                    data = info.data;
-                } else if (info.format === "json") {
-                    const p = info.data as string;
-                    try {
-                        const fileOptions = { encoding: "utf-8" };
-                        const filedata = fs.readFileSync(p, fileOptions);
-                        data = JSON.parse(filedata);
-                    // tslint:disable-next-line:no-empty
-                    } catch (error) { }
-                } else if (info.format === "yaml") {
-                    data = YAML(info.data as string);
+                if (storeObj.format === this.objSymbol) {
+                    data = storeObj.data;
+                } else {
+                    const filepath = storeObj.data as string;
+                    for (const parserObj of this.parsers) {
+                        if (parserObj.format !== storeObj.format) {
+                            continue;
+                        }
+                        try {
+                            data = parserObj.handler(filepath);
+                        // tslint:disable-next-line:no-empty
+                        } catch (error) { }
+                        break;
+                    }
                 }
                 config = merge(config, data);
             }
@@ -100,4 +135,6 @@ export = class Config<T extends { }> {
         return md5.digest("hex");
     }
 
-};
+}
+
+export = Config;

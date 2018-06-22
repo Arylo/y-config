@@ -52,6 +52,21 @@ const config = new Config();
 config.addConfigPath('./config', 'yaml');
 ```
 
+### Use Custom parse
+
+```javascript
+const config = new Config();
+config.addParser({
+  format: 'ini',
+  filter: /\.ini$/,
+  handler: (filepath) => {
+    const fs = require('fs');
+    const ini = require('ini');
+    return ini.parse(fs.readFileSync('./config.ini', 'utf-8'))
+  }
+});
+```
+
 ### Add Config Data
 
 ```javascript

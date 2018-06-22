@@ -84,7 +84,7 @@ class Config<T extends { }> {
     }
 
     public get(key: keyof T) {
-        return this.getConfig()[key as any];
+        return this.getConfig()[key];
     }
 
     public getConfig() {

@@ -1,3 +1,5 @@
 {
-  "type": "JSON"
+  "type": "JSON",
+  "mode": "r+",
+  "comment": "JSON Sample"
 }

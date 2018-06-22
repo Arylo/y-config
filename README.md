@@ -52,7 +52,7 @@ const config = new Config();
 config.addConfigPath('./config', 'yaml');
 ```
 
-### Use Custom parse
+#### Use Custom parse
 
 ```javascript
 const config = new Config();
@@ -65,6 +65,8 @@ config.addParser({
     return ini.parse(fs.readFileSync('./config.ini', 'utf-8'))
   }
 });
+config.addConfigPath('./config', 'ini');
+config.addConfigPath('./config.ini');
 ```
 
 ### Add Config Data

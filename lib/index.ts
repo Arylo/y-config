@@ -1,12 +1,12 @@
-import * as YAML from "config-yaml";
 import * as crypto from "crypto";
 import * as fs from "fs";
+import * as ftconfig from "ftconfig";
 import merge = require("lodash.merge");
 import * as path from "path";
 
 // tslint:disable-next-line:no-namespace
 declare namespace Config {
-    export type Format = "json" | "yaml" | string;
+    export type Format = "json" | "yaml" | "json5" | "hjson" | "ini" | "toml" | string;
     type TrueFormat = symbol | Format;
 
     interface IStoreObj {
@@ -29,17 +29,45 @@ class Config<T extends { }> {
 
     private parsers: Array<Config.IParserrObj<T>> = [{
         filter: /\.json$/,
-        format: "yaml",
+        format: "json",
         handler: (filepath) => {
-            const fileOptions = { encoding: "utf-8" };
-            const filedata = fs.readFileSync(filepath, fileOptions);
-            return JSON.parse(filedata);
+            const options = { encoding: "utf-8", type: "json" };
+            return ftconfig.readFile(filepath, options).toObject();
         }
     }, {
         filter: /\.ya?ml$/,
-        format: "json",
+        format: "yaml",
         handler: (filepath) => {
-            return YAML(filepath);
+            const options = { encoding: "utf-8", type: "yaml" };
+            return ftconfig.readFile(filepath, options).toObject();
+        }
+    }, {
+        filter: /\.json5$/,
+        format: "json5",
+        handler: (filepath) => {
+            const options = { encoding: "utf-8", type: "json5" };
+            return ftconfig.readFile(filepath, options).toObject();
+        }
+    }, {
+        filter: /\.hjson$/,
+        format: "hjson",
+        handler: (filepath) => {
+            const options = { encoding: "utf-8", type: "hjson" };
+            return ftconfig.readFile(filepath, options).toObject();
+        }
+    }, {
+        filter: /\.toml$/,
+        format: "toml",
+        handler: (filepath) => {
+            const options = { encoding: "utf-8", type: "toml" };
+            return ftconfig.readFile(filepath, options).toObject();
+        }
+    }, {
+        filter: /\.ini$/,
+        format: "ini",
+        handler: (filepath) => {
+            const options = { encoding: "utf-8", type: "ini" };
+            return ftconfig.readFile(filepath, options).toObject();
         }
     }];
 

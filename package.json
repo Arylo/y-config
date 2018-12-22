@@ -1,6 +1,6 @@
 {
   "name": "y-config",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Create public configuration for the project",
   "main": "dist/index.js",
   "types": "lib/index.ts",
@@ -45,7 +45,6 @@
   "homepage": "https://github.com/Arylo/y-config#readme",
   "license": "MIT",
   "devDependencies": {
-    "@types/config-yaml": "^1.1.0",
     "@types/find-up": "^2.1.1",
     "@types/lodash.merge": "^4.6.3",
     "@types/node": "^10.1.2",
@@ -62,7 +61,7 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
-    "config-yaml": "^1.1.1",
+    "ftconfig": "^1.1.1",
     "lodash.merge": "^4.6.1"
   }
 }
